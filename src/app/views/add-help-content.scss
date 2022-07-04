@@ -1,0 +1,33 @@
+@import "../../assets/styles/helpers/mixins";
+
+.add-content-component {
+  width: 100%;
+  margin: 3vh 0;
+  animation: slide-down 0.3s ease;
+  @include flex-container;
+
+  form {
+    width: 80%;
+  }
+
+  .form-field {
+    @include flex-container(flex-start, flex-start, column);
+    margin: 1rem 0;
+
+    label {
+      margin-bottom: 0.5rem;
+      @include font(15, medium);
+    }
+
+    input,
+    textarea {
+      width: 70%;
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 0.3rem;
+      @include font(15, medium);
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 1.5;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+@import "./../../../assets/styles/helpers/mixins";
+
+.confirmation-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex-container(flex-start);
+
+  .confirmation-content {
+    background-color: #fff;
+    padding: 2rem 1rem;
+    width: 60vh;
+    text-align: center;
+    position: absolute;
+    top: 6rem;
+    border-radius: 0.8rem;
+
+    .header {
+      @include font(24, medium);
+      margin: 1rem 0 3rem;
+    }
+
+    .cta-blocks {
+      width: 100%;
+      @include flex-container;
+    }
+  }
+}

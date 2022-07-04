@@ -1,0 +1,38 @@
+@import "./variables";
+
+@mixin flex-container($align: center, $justify: center, $direction: row) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin box-shadow($color: #bbbbbb) {
+  box-shadow: 0px 2px 4px $color;
+}
+
+@mixin top-box-shadow($color: #bbbbbb) {
+  box-shadow: 0px 0px 20px $color;
+}
+
+@mixin bottom-box-shadow($color: #bbbbbb) {
+  box-shadow: 0px 2px 4px $color;
+}
+
+@mixin font($size, $family: regular) {
+  font-size: $size/$primary-font-size + rem;
+
+  @if $family==regular {
+    font-family: roboto;
+  } @else if $family==bold {
+    font-family: roboto-bold;
+  } @else if $family==italic {
+    font-family: roboto-italic;
+  } @else if $family==black {
+    font-family: roboto-black;
+  } @else if $family==light {
+    font-family: roboto-light;
+  } @else if $family==medium {
+    font-family: roboto-medium;
+  }
+}

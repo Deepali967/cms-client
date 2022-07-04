@@ -1,0 +1,12 @@
+@import "./../../../assets/styles/helpers/mixins";
+
+.header-component {
+  height: 100%;
+  @include flex-container(center, center);
+  box-shadow: 10px -3px 20px 6px rgba(0, 0, 0, 0.2);
+
+  .title {
+    padding: 2rem 0;
+    @include font(26, bold);
+  }
+}

@@ -1,0 +1,40 @@
+@import "./assets/styles/main.scss";
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.app-component {
+  height: 100%;
+  width: 100%;
+}
+
+.main-component {
+  height: 100%;
+  width: 100%;
+  background: #f7f4ee;
+
+  .header {
+  }
+
+  .content {
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.cta-blocks {
+  @include flex-container(center, flex-end);
+}
+
+.btn {
+  padding: 0.5rem 2rem;
+  width: fit-content;
+  background-color: #492a2a;
+  color: #fff;
+  @include font(14, bold);
+  border-radius: 0.3rem;
+  margin: 0 0.6rem;
+}

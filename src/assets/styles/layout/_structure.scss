@@ -1,0 +1,46 @@
+@import "./../helpers/variables";
+
+html {
+  font-size: $primary-font-size + px;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  // font-family: $primary-font-family;
+  line-height: 24px;
+  // color: $primary-color;
+  margin: 0;
+  padding: 0;
+  // background: $background-color1;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.clearfix {
+  clear: both;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.recipe-carousel-component {
+  .flickity-viewport {
+    height: 100% !important;
+    width: 100% !important;
+    &:focus {
+      outline: none !important;
+    }
+
+    .flickity-slider {
+      height: 100% !important;
+      width: 100% !important;
+    }
+  }
+}
