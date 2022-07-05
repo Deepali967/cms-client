@@ -1,17 +1,57 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Toastr } from "../shared/toastr/toastr";
 
 import "./add-help-content.scss";
 
 const AddHelpContent = () => {
+  const toggletostr = () => {
+    showToastr = !showToastr;
+    setShowToastr(showToastr);
+  };
+
   const handleChange = (e) => {
+    setShowErrors(false);
+
     const name = e.target.name;
     const value = e.target.value;
 
     setInputs((values) => ({ ...values, [name]: value }));
 
-    console.log(inputs);
+    validateuserInput(name, value);
+  };
+
+  const validateuserInput = (field, userValue) => {
+    let validationProperties = properties[field];
+
+    if (userValue.trim().length < validationProperties.minLength) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Please Enter ${validationProperties.minLength} Valid characters`,
+        })
+      );
+    } else if (userValue.trim().length > validationProperties.maxLength) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Max ${validationProperties.maxLength} Allowed`,
+        })
+      );
+    } else if (!validationProperties.pattern.test(userValue)) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Only Alphabets, Numbers and (&'/(),?.) are allowed`,
+        })
+      );
+    } else {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: "",
+        })
+      );
+    }
+
+    console.log(errorObj);
   };
 
   const uploadImage = (file) => {
@@ -30,12 +70,36 @@ const AddHelpContent = () => {
         config
       )
       .then((res) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "success",
+            message: "Image uploaded successfully",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 2000);
+
         setInputs((values) => ({ ...values, image: res.data.imageUrl }));
 
         setCurrentUploadedImage(res.data.imageUrl);
         setImageUpload(true);
       })
       .catch((err) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "error",
+            message: "Error in upload image",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 2000);
+
         console.log(err);
       });
   };
@@ -66,13 +130,36 @@ const AddHelpContent = () => {
     axios
       .put(`${process.env.REACT_APP_API_HOST}/help/${recordId}`, inputs)
       .then((res) => {
-        navigate("/content", {
-          state: {
-            type: "help",
-          },
+        setToastr(
+          Object.assign(toastr, { type: "success", message: res.data.message })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+
+          setToastr(Object.assign(toastr, {}));
+
+          navigate("/content", {
+            state: {
+              type: "help",
+            },
+          });
         });
       })
       .catch((err) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "error",
+            message: err?.response?.data?.message || "Error",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 1000);
+
         console.log(err);
       });
   };
@@ -81,18 +168,47 @@ const AddHelpContent = () => {
     axios
       .post(`${process.env.REACT_APP_API_HOST}/help`, inputs)
       .then((res) => {
-        navigate("/content", {
-          state: {
-            type: "help",
-          },
-        });
+        setToastr(
+          Object.assign(toastr, { type: "success", message: res.data.message })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+          setToastr(Object.assign(toastr, {}));
+
+          navigate("/content", {
+            state: {
+              type: "help",
+            },
+          });
+        }, 2000);
       })
       .catch((err) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "error",
+            message: err?.response?.data?.message || "Error",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 1000);
+
         console.log(err);
       });
   };
 
   const submitContent = () => {
+    let errorKeys = Object.keys(errorObj).filter((key) => errorObj[key] !== "");
+
+    if (errorKeys.length) {
+      setShowErrors(true);
+      return;
+    }
+
     if (recordId) {
       updateRecord();
     } else {
@@ -100,8 +216,13 @@ const AddHelpContent = () => {
     }
   };
 
+  const resetErrors = () => {
+    setErrorObj(Object.assign(errorObj, { title: "", desc: "", subtitle: "" }));
+  };
+
   const cancel = () => {
     setInputs({});
+    navigate("/");
   };
 
   let location = useLocation();
@@ -111,10 +232,43 @@ const AddHelpContent = () => {
   let [file, setFile] = useState(null);
   let [filename, setFilename] = useState("");
 
+  let [properties, setProperties] = useState({
+    title: {
+      minLength: 2,
+      maxLength: 30,
+      pattern: new RegExp("[a-zA-Z&'/(),?.\\- ]*"),
+    },
+
+    subtitle: {
+      minLength: 2,
+      maxLength: 30,
+      pattern: new RegExp("[a-zA-Z&'/(),?.\\- ]*"),
+    },
+
+    desc: {
+      minLength: 3,
+      maxLength: 300,
+      pattern: new RegExp("[a-zA-Z&'/(),?.\\- ]*"),
+    },
+  });
+
+  let [errorObj, setErrorObj] = useState({
+    title: "Field is Required",
+    desc: "Field is Required",
+    subtitle: "Field is Required",
+  });
+
+  let [showErrors, setShowErrors] = useState(false);
+
+  let [toastr, setToastr] = useState({
+    type: "",
+    message: "",
+  });
+
+  let [showToastr, setShowToastr] = useState(false);
+
   let [currentUploadedImage, setCurrentUploadedImage] = useState(null);
   let recordId = location?.state?.id;
-
-  console.log(recordId);
 
   useEffect(() => {
     if (recordId) {
@@ -123,6 +277,7 @@ const AddHelpContent = () => {
         .then((response) => {
           if (response.data) {
             setInputs(response.data.data);
+            resetErrors();
           }
         })
         .catch((err) => {
@@ -144,6 +299,11 @@ const AddHelpContent = () => {
               onChange={handleChange}
             />
           </div>
+          {showErrors && errorObj?.title ? (
+            <div className="error">{errorObj?.title}</div>
+          ) : (
+            <></>
+          )}
 
           <div className="form-field name">
             <label>SubTitle:</label>
@@ -154,6 +314,11 @@ const AddHelpContent = () => {
               onChange={handleChange}
             />
           </div>
+          {showErrors && errorObj?.subtitle ? (
+            <div className="error">{errorObj?.subtitle}</div>
+          ) : (
+            <></>
+          )}
 
           <div className="form-field name">
             <label>Upload Image:</label>
@@ -161,7 +326,9 @@ const AddHelpContent = () => {
           </div>
 
           {isImageUpload ? (
-            <img src={currentUploadedImage} alt={currentUploadedImage} />
+            <div className="uploaded-image">
+              <img src={currentUploadedImage} alt={currentUploadedImage} />
+            </div>
           ) : (
             <></>
           )}
@@ -178,6 +345,12 @@ const AddHelpContent = () => {
             ></textarea>
           </div>
 
+          {showErrors && errorObj?.desc ? (
+            <div className="error">{errorObj?.desc}</div>
+          ) : (
+            <></>
+          )}
+
           <div className="cta-blocks">
             <div className="btn submit" onClick={submitContent}>
               Submit
@@ -189,6 +362,12 @@ const AddHelpContent = () => {
           </div>
         </form>
       </div>
+
+      {showToastr ? (
+        <Toastr type={toastr.type} message={toastr.message} />
+      ) : (
+        <></>
+      )}
     </React.Fragment>
   );
 };

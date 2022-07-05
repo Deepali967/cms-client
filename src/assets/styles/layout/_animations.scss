@@ -25,6 +25,15 @@
   }
 }
 
+@keyframes slide-from-right {
+  0% {
+    transform: translate3d(3rem, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @keyframes scale-up {
   from {
     transform: scale(0.5);
@@ -36,7 +45,7 @@
 
 @keyframes popup {
   0% {
-    transform: translate3d(0, 0.5rem, 0);
+    transform: translate3d(0, -2rem, 0);
   }
   100% {
     transform: translate3d(0, 0, 0);

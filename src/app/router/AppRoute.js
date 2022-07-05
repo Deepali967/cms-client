@@ -9,7 +9,7 @@ export default function AppRoute({ routes }) {
       <React.Fragment>
         <Routes>
           {routes.map((route) => (
-            <React.Fragment>
+            <React.Fragment key={route.path}>
               <Route
                 key={route.path}
                 path={route.path}

@@ -8,8 +8,6 @@ import { Header } from "./app/shared/header/header";
 import AppRoute from "./app/router/AppRoute";
 
 const App = () => {
-  console.log(routes);
-
   return (
     <div className="main-component">
       <div className="header">

@@ -1,0 +1,25 @@
+@import "./../../../assets/styles/helpers/mixins";
+
+.toastr-component {
+  position: absolute;
+  top: 10vh;
+  right: 0;
+  animation: slide-from-right 0.5s ease-in-out;
+
+  .message {
+    width: 30vh;
+    padding: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    @include font(18, medium);
+    color: #fff;
+
+    &.success {
+      background-color: #28a928;
+    }
+
+    &.error {
+      background-color: #ca0e0e;
+    }
+  }
+}

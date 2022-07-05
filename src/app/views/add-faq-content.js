@@ -1,30 +1,85 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Toastr } from "../shared/toastr/toastr";
 
 import "./add-faq-content.scss";
 
 const AddFAQContent = () => {
-  const [inputs, setInputs] = useState({});
-
   const handleChange = (e) => {
+    if (showErrors) {
+      setShowErrors(false);
+    }
+
     const name = e.target.name;
     const value = e.target.value;
 
     setInputs((values) => ({ ...values, [name]: value }));
+
+    validateuserInput(name, value);
+  };
+
+  const validateuserInput = (field, userValue) => {
+    let validationProperties = properties[field];
+
+    if (userValue.trim().length < validationProperties.minLength) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Please Enter ${validationProperties.minLength} Valid characters`,
+        })
+      );
+    } else if (userValue.trim().length > validationProperties.maxLength) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Max ${validationProperties.maxLength} Allowed`,
+        })
+      );
+    } else if (!validationProperties.pattern.test(userValue)) {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: `Only Alphabets, Numbers and (&'/(),?.) are allowed`,
+        })
+      );
+    } else {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: "",
+        })
+      );
+    }
   };
 
   const updateRecord = () => {
     axios
       .put(`${process.env.REACT_APP_API_HOST}/faq/${recordId}`, inputs)
       .then((res) => {
-        navigate("/content", {
-          state: {
-            type: "faq",
-          },
-        });
+        setToastr(
+          Object.assign(toastr, { type: "success", message: res.data.message })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+          navigate("/content", {
+            state: {
+              type: "faq",
+            },
+          });
+        }, 2000);
       })
       .catch((err) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "error",
+            message: err?.data?.response?.message || "Error",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 1000);
+
         console.log(err);
       });
   };
@@ -33,18 +88,53 @@ const AddFAQContent = () => {
     axios
       .post(`${process.env.REACT_APP_API_HOST}/faq`, inputs)
       .then((res) => {
-        navigate("/content", {
-          state: {
-            type: "faq",
-          },
-        });
+        setToastr(
+          Object.assign(toastr, { type: "success", message: res.data.message })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+
+          setToastr(Object.assign(toastr, {}));
+
+          navigate("/content", {
+            state: {
+              type: "faq",
+            },
+          });
+        }, 2000);
       })
       .catch((err) => {
+        setToastr(
+          Object.assign(toastr, {
+            type: "error",
+            message: err?.response?.data?.message || "Error",
+          })
+        );
+        toggletostr();
+
+        setTimeout(() => {
+          toggletostr();
+        }, 1000);
+
         console.log(err);
       });
   };
 
+  const toggletostr = () => {
+    showToastr = !showToastr;
+    setShowToastr(showToastr);
+  };
+
   const submitContent = () => {
+    let key = Object.keys(errorObj).filter((key) => errorObj[key] !== "");
+
+    if (key.length) {
+      setShowErrors(true);
+      return;
+    }
+
     if (recordId) {
       updateRecord();
     } else {
@@ -54,14 +144,44 @@ const AddFAQContent = () => {
 
   const cancel = () => {
     setInputs({});
+    navigate("/");
+  };
+
+  const resetErrors = () => {
+    setErrorObj(Object.assign(errorObj, { title: "", description: "" }));
   };
 
   let location = useLocation();
   let navigate = useNavigate();
-
+  const [inputs, setInputs] = useState({});
   let recordId = location?.state?.id;
+  let [toastr, setToastr] = useState({
+    type: "",
+    message: "",
+  });
 
-  console.log(recordId);
+  let [showToastr, setShowToastr] = useState(false);
+
+  let [properties, setProperties] = useState({
+    title: {
+      minLength: 2,
+      maxLength: 30,
+      pattern: new RegExp("[a-zA-Z&'/(),?.\\- ]*"),
+    },
+
+    description: {
+      minLength: 10,
+      maxLength: 400,
+      pattern: new RegExp("[a-zA-Z0-9&'/(),?.\\- ]*"),
+    },
+  });
+
+  let [errorObj, setErrorObj] = useState({
+    title: "Field is Required",
+    description: "Field is Required",
+  });
+
+  let [showErrors, setShowErrors] = useState(false);
 
   useEffect(() => {
     if (recordId) {
@@ -70,6 +190,7 @@ const AddFAQContent = () => {
         .then((response) => {
           if (response.data) {
             setInputs(response.data.data);
+            resetErrors();
           }
         })
         .catch((err) => {
@@ -92,6 +213,12 @@ const AddFAQContent = () => {
             />
           </div>
 
+          {showErrors && errorObj?.title ? (
+            <div className="error">{errorObj?.title}</div>
+          ) : (
+            <></>
+          )}
+
           <div className="form-field name">
             <label>Answer / Description:</label>
             <textarea
@@ -103,6 +230,11 @@ const AddFAQContent = () => {
               colums={"7"}
             ></textarea>
           </div>
+          {showErrors && errorObj?.description ? (
+            <div className="error">{errorObj?.description}</div>
+          ) : (
+            <></>
+          )}
 
           <div className="cta-blocks">
             <div className="btn submit" onClick={submitContent}>
@@ -115,6 +247,12 @@ const AddFAQContent = () => {
           </div>
         </form>
       </div>
+
+      {showToastr ? (
+        <Toastr type={toastr.type} message={toastr.message} />
+      ) : (
+        <></>
+      )}
     </React.Fragment>
   );
 };

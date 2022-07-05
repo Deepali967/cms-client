@@ -7,6 +7,12 @@
 
   @include flex-container;
 
+  .error {
+    color: red;
+    @include font(15, medium);
+    animation: fade-in 0.3s ease-in;
+  }
+
   form {
     width: 80%;
   }

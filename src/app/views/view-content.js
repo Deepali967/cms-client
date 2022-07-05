@@ -10,7 +10,7 @@ import "./view-content.scss";
 
 const ViewContent = () => {
   const deleteRecord = (record) => {
-    setCurrentSelectedRecord(record._id);
+    setCurrentSelectedRecord(record);
     toggleconfirmation();
   };
 
@@ -47,10 +47,14 @@ const ViewContent = () => {
             <tr key={data._id}>
               {columns.map((column) => {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={column?.id}>
                     {column?.id === "image" ? (
-                      <td key={column?.id}>
-                        <img src={data.image} alt="data" />
+                      <td className="image-element" key={column?.id}>
+                        {data.image ? (
+                          <img src={data.image} alt="data" />
+                        ) : (
+                          "No Preview Available"
+                        )}
                       </td>
                     ) : (
                       <td key={column?.id}>
@@ -165,7 +169,7 @@ const ViewContent = () => {
       {showConfirmtion ? (
         <Confirmation
           articleType={articleType}
-          recordId={currentSelectedRecord}
+          record={currentSelectedRecord}
           emitAction={toggleconfirmation}
         />
       ) : (

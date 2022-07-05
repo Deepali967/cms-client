@@ -20,6 +20,12 @@
     position: absolute;
     top: 6rem;
     border-radius: 0.8rem;
+    animation: popup 0.3s ease-in-out;
+
+    .record {
+      @include font(24, medium);
+      margin: 1rem 0 3rem;
+    }
 
     .header {
       @include font(24, medium);

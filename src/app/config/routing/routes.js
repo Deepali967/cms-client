@@ -7,6 +7,11 @@ export const DEFAULT = {
   path: paths.DEFAULT_ROUTE,
 };
 
+export const DEFAULT_MAIN = {
+  component: views.Home,
+  path: paths.DEFAULT_ROUTE_MAIN,
+};
+
 export const HOME = {
   component: views.Home,
   path: paths.VIEW_HOME_ROUTE,
@@ -27,4 +32,4 @@ export const ADD_HELP = {
   path: paths.ADD_HELP,
 };
 
-export default [DEFAULT, HOME, CONTENT, ADD_FAQ,ADD_HELP];
+export default [DEFAULT, DEFAULT_MAIN, HOME, CONTENT, ADD_FAQ, ADD_HELP];
