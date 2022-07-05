@@ -277,6 +277,10 @@ const AddHelpContent = () => {
         .then((response) => {
           if (response.data) {
             setInputs(response.data.data);
+            if (response?.data?.data?.image) {
+              setCurrentUploadedImage(response.data.data.image);
+              setImageUpload(true);
+            }
             resetErrors();
           }
         })
