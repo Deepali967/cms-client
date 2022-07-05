@@ -14,12 +14,22 @@
   }
 
   form {
-    width: 80%;
+    width: 60%;
   }
 
   .form-field {
     @include flex-container(flex-start, flex-start, column);
     margin: 1rem 0;
+    position: relative;
+
+    .count {
+      text-align: right;
+      position: absolute;
+      right: 5vw;
+      bottom: 0.5rem;
+      width: 5rem;
+      @include font(10, bold);
+    }
 
     label {
       margin-bottom: 0.5rem;
@@ -28,7 +38,7 @@
 
     input,
     textarea {
-      width: 70%;
+      width: 90%;
       padding: 1rem;
       border: 1px solid rgba(0, 0, 0, 0.3);
       border-radius: 0.3rem;

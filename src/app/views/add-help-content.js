@@ -298,6 +298,15 @@ const AddHelpContent = () => {
               value={inputs?.title || ""}
               onChange={handleChange}
             />
+
+            <div className="count">
+              {inputs?.title?.length
+                ? inputs?.title?.length <= properties?.title.maxLength
+                  ? inputs?.title?.length
+                  : properties?.title.maxLength
+                : 0}
+              /{properties?.title.maxLength}
+            </div>
           </div>
           {showErrors && errorObj?.title ? (
             <div className="error">{errorObj?.title}</div>
@@ -313,6 +322,15 @@ const AddHelpContent = () => {
               value={inputs?.subtitle || ""}
               onChange={handleChange}
             />
+
+            <div className="count">
+              {inputs?.subtitle?.length
+                ? inputs?.subtitle?.length <= properties?.subtitle.maxLength
+                  ? inputs?.subtitle?.length
+                  : properties?.subtitle.maxLength
+                : 0}
+              /{properties?.subtitle.maxLength}
+            </div>
           </div>
           {showErrors && errorObj?.subtitle ? (
             <div className="error">{errorObj?.subtitle}</div>
@@ -343,6 +361,15 @@ const AddHelpContent = () => {
               rows={"5"}
               colums={"7"}
             ></textarea>
+
+            <div className="count">
+              {inputs?.desc?.length
+                ? inputs?.desc?.length <= properties?.desc.maxLength
+                  ? inputs?.desc?.length
+                  : properties?.desc.maxLength
+                : 0}
+              /{properties?.desc.maxLength}
+            </div>
           </div>
 
           {showErrors && errorObj?.desc ? (

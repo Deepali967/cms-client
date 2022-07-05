@@ -31,7 +31,7 @@ const AddFAQContent = () => {
     } else if (userValue.trim().length > validationProperties.maxLength) {
       setErrorObj(
         Object.assign(errorObj, {
-          [field]: `Max ${validationProperties.maxLength} Allowed`,
+          [field]: `Max ${validationProperties.maxLength} characters Allowed`,
         })
       );
     } else if (!validationProperties.pattern.test(userValue)) {
@@ -211,6 +211,15 @@ const AddFAQContent = () => {
               value={inputs?.title || ""}
               onChange={handleChange}
             />
+
+            <div className="count">
+              {inputs?.title?.length
+                ? inputs?.title?.length <= properties?.title.maxLength
+                  ? inputs?.title?.length
+                  : properties?.title.maxLength
+                : 0}
+              /{properties?.title.maxLength}
+            </div>
           </div>
 
           {showErrors && errorObj?.title ? (
@@ -229,7 +238,18 @@ const AddFAQContent = () => {
               rows={"5"}
               colums={"7"}
             ></textarea>
+
+            <div className="count">
+              {inputs?.description?.length
+                ? inputs?.description?.length <=
+                  properties?.description.maxLength
+                  ? inputs?.description?.length
+                  : properties?.description.maxLength
+                : 0}
+              /{properties?.description.maxLength}
+            </div>
           </div>
+
           {showErrors && errorObj?.description ? (
             <div className="error">{errorObj?.description}</div>
           ) : (
