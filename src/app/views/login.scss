@@ -1,0 +1,44 @@
+@import "../../assets/styles/helpers/mixins";
+
+.login-component{
+    height: 100%;
+    width: 100%;
+    @include flex-container(center, flex-start, column);
+    padding : 2rem 0 0 0;
+
+    h1{
+        @include font(24, bold);
+    }
+
+    .login-form{
+        width: 50%;
+        @include flex-container(center, center, column);
+        .form-group{
+            width: 100%;
+            @include flex-container(center, center);
+            label{
+                @include font(16, bold);
+                width: 30%;
+            }
+
+        input{
+            width: 60%;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        }
+
+        .btn{
+            margin: 3rem 0 0 0;
+        }
+
+         .error {
+    color: red;
+    @include font(15, medium);
+    animation: fade-in 0.3s ease-in;
+  }
+
+    }
+}

@@ -3,12 +3,12 @@ import { paths } from "./paths";
 import views from "../../views";
 
 export const DEFAULT = {
-  component: views.Home,
+  component: views.Login,
   path: paths.DEFAULT_ROUTE,
 };
 
 export const DEFAULT_MAIN = {
-  component: views.Home,
+  component: views.Login,
   path: paths.DEFAULT_ROUTE_MAIN,
 };
 
@@ -28,6 +28,12 @@ export const ADD_FAQ = {
 };
 
 export const ADD_HELP = {
+  component: views.AddHelpContent,
+  path: paths.ADD_HELP,
+};
+
+
+export const LOGIN = {
   component: views.AddHelpContent,
   path: paths.ADD_HELP,
 };

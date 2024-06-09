@@ -5,4 +5,5 @@ export const paths = {
   VIEW_CONTENT_ROUTE: "/content",
   ADD_FAQ: "/faq",
   ADD_HELP: "/help",
+  LOGIN :'/login',
 };

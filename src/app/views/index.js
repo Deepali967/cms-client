@@ -6,4 +6,6 @@ import AddFAQContent from "./add-faq-content";
 
 import AddHelpContent from "./add-help-content";
 
-export default { Home, ViewContent, AddFAQContent, AddHelpContent };
+import Login from "./login";
+
+export default { Home, ViewContent, AddFAQContent, AddHelpContent, Login };

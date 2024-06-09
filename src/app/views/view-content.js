@@ -134,7 +134,7 @@ const ViewContent = () => {
               </div>
 
               <div className="btn add" onClick={addRecord}>
-                Add {articleType}
+                 Add New Section
               </div>
             </div>
 
@@ -159,7 +159,7 @@ const ViewContent = () => {
                 </div>
 
                 <div className="btn add" onClick={addRecord}>
-                  Add {articleType}
+                  Add New Section
                 </div>
               </div>
             </div>
