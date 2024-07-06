@@ -6,6 +6,22 @@
   overflow-y: auto;
   @include flex-container(center, flex-start, column);
 
+  .add-section-cta {
+    width: 70%;
+    @include flex-container(flex-end, flex-end, column);
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+      padding: 0.8rem 1.6rem;
+      border: none;
+      border-radius: 0.6rem;
+      @include font(18, bold);
+      color: #fff;
+      background-color: #2f80ed;
+    }
+  }
+
   .add {
     width: 70vw;
     padding: 1.4rem 1rem;

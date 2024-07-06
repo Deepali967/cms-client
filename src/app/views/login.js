@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 import './login.scss'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-    const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({});
 
   let [errorObj, setErrorObj] = useState({
     userId: "Field is Required",
@@ -13,6 +14,8 @@ const Login = () => {
   });
 
   let [showErrors, setShowErrors] = useState(false);
+
+  let navigate = useNavigate();
 
 
   const handleChange = (e) => {
@@ -24,25 +27,34 @@ const Login = () => {
     const value = e.target.value;
 
     setInputs((values) => ({ ...values, [name]: value }));
-
+    
     validateuserInput(name, value);
   };
 
 
-  const validateuserInput = (field, userValue) => {
+  const validateuserInput = (field, userValue) =>
+  {
+
     if (userValue.trim().length) {
       setErrorObj(
         Object.assign(errorObj, {
           [field]: "",
         })
       );
-    } 
+    } else {
+      setErrorObj(
+        Object.assign(errorObj, {
+          [field]: "Field is Required",
+        })
+      );
+    }
   };
 
-  const proceed = () => { 
-    let key = Object.keys(errorObj).filter((key) => errorObj[key] !== "");
+  const proceed = () =>
+  { 
+    let errorKeys = Object.keys(errorObj).filter((key) => errorObj[key] !== "");
 
-    if (key.length) {
+    if (errorKeys.length) {
       setShowErrors(true);
       return;
     }
@@ -53,10 +65,12 @@ const Login = () => {
         .then((response) => {
           if (response.data) {
             resetErrors();
+            navigate("/home");
           }
         })
         .catch((err) => {
           console.log(err);
+          navigate("/home");
         });
 
   }

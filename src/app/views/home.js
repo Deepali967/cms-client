@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { add_ic, view_ic } from "../../assets/images";
 
 import "./home.scss";
+import AddSectionForm from "./add-section";
 
-const Home = () => {
+const Home = () =>
+{
+  let navigate = useNavigate();
+  const [showAddSectionForm, setShowAddSectionForm] = useState(false);
+
   const navigateTo = (route) => {
     navigate(route);
   };
@@ -15,7 +20,15 @@ const Home = () => {
     });
   };
 
-  let navigate = useNavigate();
+  const addSection = () =>
+  { 
+    toggle();
+  }
+
+  const toggle = () =>
+  { 
+    setShowAddSectionForm(!showAddSectionForm);
+  }
 
   return (
     <React.Fragment>
@@ -23,7 +36,7 @@ const Home = () => {
         <div className="add faq">
           <div className="text-content">
             {" "}
-            FAQ
+            Q-section
             <div className="icons">
               <img
                 src={add_ic}
@@ -47,7 +60,7 @@ const Home = () => {
         <div className="add help">
           <div className="text-content">
             {" "}
-            Help Blog{" "}
+            PRI Section{" "}
             <div className="icons">
               <img
                 src={add_ic}
@@ -67,6 +80,13 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        <div className="add-section-cta">
+          <button onClick={()=> addSection()}>Add section</button>
+        </div>         
+      
+        {showAddSectionForm && <AddSectionForm close={ toggle } />}
+      
       </div>
     </React.Fragment>
   );

@@ -1,0 +1,82 @@
+@import "../../assets/styles/helpers/mixins";
+
+.add-section-form {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    width: 100%;
+    @include flex-container(center, center, column);
+
+    .form-section {
+        background-color: #fff;
+        width: 70%;
+        padding: 2rem;
+        border-radius: 1rem;
+
+        .form-group {
+            width: 100%;
+            @include flex-container(flex-start, center);
+            margin: 1rem 0;
+
+            &:last-child {
+                border-bottom: 1px solid #D6D6D6;
+            }
+
+            label {
+                width: 30%;
+                word-wrap: break-word;
+                text-wrap: wrap;
+                display: block;
+                @include font(15, medium);
+            }
+
+            .input-value {
+                width: 65%;
+                @include flex-container(flex-start, flex-start, column);
+
+                input {
+                    width: 80%;
+                    padding: 1rem;
+                    border: 1px solid rgba(0, 0, 0, 0.3);
+                    border-radius: 0.3rem;
+                    @include font(15, medium);
+                }
+
+                .error {
+                    margin: 0.3rem 0;
+                    color: red;
+                    @include font(15, bold);
+                }
+            }
+
+
+        }
+    }
+
+    .action {
+        width: 100%;
+        @include flex-container(flex-end, flex-end);
+        margin: 2rem 0 1rem;
+        @include font(15, medium);
+
+        .submit {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 2rem;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .clear {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: #007bff;
+        }
+    }
+}
